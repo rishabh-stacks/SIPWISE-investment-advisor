@@ -10,7 +10,7 @@ A fast, private SIP goal planner. Enter a few numbers and get your projected cor
 ![CSS3](https://img.shields.io/badge/CSS3-custom%20properties-0f766e?style=flat-square&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES6-0f766e?style=flat-square&logo=javascript&logoColor=white)
 ![Chart.js](https://img.shields.io/badge/Chart.js-4.4.0-0f766e?style=flat-square&logo=chartdotjs&logoColor=white)
-![No backend](https://img.shields.io/badge/backend-none-0f766e?style=flat-square)
+![No backend](https://img.shields.io/badge/backend-local-0f766e?style=flat-square)
 
 [🚀 Features](#-features) · [🧭 How it works](#-how-it-works) · [🧩 Code tour](#-code-tour) · [✅ Code quality](#-code-quality) · [📌 Roadmap](#-roadmap)
 
