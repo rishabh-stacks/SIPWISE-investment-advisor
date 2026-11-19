@@ -22,7 +22,7 @@ A fast, private SIP goal planner. Enter a few numbers and get your projected cor
 
 ## ✨ Why SIPWise
 
-Most SIP calculators stop at one big number. That number feels good, but it doesn't tell you whether you are on track. SIPWise is built around the questions that actually change what you do next.
+Most SIP calculators stop at one big number. That number feel good, but it doesn't tell you whether you are on track. SIPWise is built around the questions that actually change what you do next.
 
 - **See the gap, not just the number.** Your projection is set against your goal, so you know in rupees whether you are ahead or short, and what monthly SIP would close the gap. A specific gap is something you can act on. A vague worry is not.
 - **Watch compounding work for you.** Invested money and returns are shown side by side. At ₹8,000 a month for 10 years at 12%, you put in ₹9.6 lakh and the projection reaches ₹18.6 lakh, so returns come close to matching your own contributions.
