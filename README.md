@@ -40,7 +40,7 @@ Most SIP calculators stop at one big number. That number feel good, but it doesn
 | **Fund type comparison** | Same SIP projected at sample debt, hybrid and equity returns |
 | **Next steps** | Personalised tips for each failed rule, plus a KYC documents checklist |
 | **Saved plans** | Keep plans in your browser and review them later |
-| **Report download** | Export your plan as a plain-text report |
+| **Report download** | Export your plan as a .pdf report |
 | **Light and dark themes** | Remembers your choice, defaults to your system setting |
 | **Responsive and accessible** | Works from phone to desktop, keyboard-friendly tooltips, reduced-motion support |
 
@@ -101,7 +101,7 @@ Plain HTML, CSS and JavaScript with no build step and nothing to install. The on
 | `render()` | Single pipeline that updates the hero, stats, tips, fund cards and charts |
 | `buildCharts()` / `updateCharts()` | Creates the three Chart.js charts, then feeds them new data |
 | `savePlan()` / `renderHistory()` | Saved plans in `localStorage` (latest 20 kept, 5 shown) |
-| `downloadReport()` | Builds a text report with the Blob and URL APIs |
+| `downloadReport()` | Builds a .pdf report with jsPDF |
 | `setTheme()` | Toggles the theme, saves it and rebuilds the charts |
 
 ### Make it yours
