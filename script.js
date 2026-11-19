@@ -460,43 +460,66 @@ function savePlan() {
 }
 
 
-/* report download (Blob + URL API) */
+/* report download (jsPDF) */
 
 function downloadReport() {
+  if (!window.jspdf) {
+    alert('PDF library failed to load. Please check your internet connection and try again.');
+    return;
+  }
+
+  const { jsPDF } = window.jspdf;
   const { d, r } = latest;
   const name = d.name || 'Investor';
 
+  // Built-in PDF fonts don't support '₹', so swap it with 'Rs. '
+  const pdfMoney = amount => formatRupees(amount).replace('₹', 'Rs. ');
+
   const lines = [
-    'SIPWISE GOAL PLAN REPORT',
-    '',
     `Name: ${name}`,
-    `Goal: ${d.goalType || 'Not chosen'} (${formatRupees(d.goal)})`,
+    `Goal: ${d.goalType || 'Not chosen'} (${pdfMoney(d.goal)})`,
     '',
-    `Monthly income: ${formatRupees(d.income)}`,
-    `Monthly expenses: ${formatRupees(d.expenses)}`,
-    `Emergency fund: ${formatRupees(d.fund)}`,
-    `Monthly SIP: ${formatRupees(d.sip)} for ${d.years} years at ${d.rate}% a year`,
+    `Monthly income: ${pdfMoney(d.income)}`,
+    `Monthly expenses: ${pdfMoney(d.expenses)}`,
+    `Emergency fund: ${pdfMoney(d.fund)}`,
+    `Monthly SIP: ${pdfMoney(d.sip)} for ${d.years} years at ${d.rate}% a year`,
     '',
-    `Total invested: ${formatRupees(r.invested)}`,
-    `Estimated returns: ${formatRupees(r.corpus - r.invested)}`,
-    `Projected value: ${formatRupees(r.corpus)}`,
+    `Total invested: ${pdfMoney(r.invested)}`,
+    `Estimated returns: ${pdfMoney(r.corpus - r.invested)}`,
+    `Projected value: ${pdfMoney(r.corpus)}`,
     '',
     `Readiness score: ${r.pct}% (${r.verdict})`,
     ...r.rules.map(rule => `  [${rule.pass ? 'PASS' : 'FAIL'}] ${rule.name}`),
     '',
     'Next steps:',
-    ...r.rules.filter(rule => !rule.pass).map(rule => '  - ' + rule.tip),
+    ...r.rules.filter(rule => !rule.pass).map(rule => '  - ' + rule.tip.replace(/₹/g, 'Rs. ')),
     '',
     `Generated: ${new Date().toLocaleString('en-IN')}`,
     'Projections are estimates, not guaranteed returns or financial advice.'
   ];
 
-  const url = URL.createObjectURL(new Blob([lines.join('\n')], { type: 'text/plain' }));
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = 'sipwise_' + name.replace(/\s+/g, '_') + '.txt';
-  link.click();
-  URL.revokeObjectURL(url);
+  const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+  let y = 50;
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(16);
+  doc.text('SIPWISE GOAL PLAN REPORT', 40, y);
+  y += 28;
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(11);
+
+  for (const line of lines) {
+    if (!line) {
+      y += 10;
+      continue;
+    }
+    const wrapped = doc.splitTextToSize(line, 515);
+    doc.text(wrapped, 40, y);
+    y += wrapped.length * 16;
+  }
+
+  doc.save('sipwise_' + name.replace(/\s+/g, '_') + '.pdf');
 }
 
 
