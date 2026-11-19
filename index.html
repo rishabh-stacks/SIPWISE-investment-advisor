@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIPWise: SIP Goal Planner</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="app">
+
+    <header class="top">
+      <div class="brand">
+        <a class="icon-btn" href="index.html" target="_blank" rel="noopener"
+           title="Open SIPWise home in a new tab" aria-label="Open SIPWise home in a new tab">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 11l9-8 9 8"></path>
+            <path d="M5 10v10h14V10"></path>
+            <path d="M10 20v-6h4v6"></path>
+          </svg>
+        </a>
+        <div class="logo">SIP<b>Wise</b></div>
+      </div>
+      <div class="actions">
+        <button class="btn" id="reportBtn" type="button" title="Download your plan as a text file" disabled>Download report</button>
+        <button class="btn" id="themeBtn" type="button" title="Switch between light and dark mode">Dark mode</button>
+      </div>
+    </header>
+
+    <section class="card hero">
+      <div>
+        <p class="muted">Projected corpus after <span id="heroYears">–</span> years</p>
+        <div class="big" id="heroCorpus">₹0</div>
+        <p class="muted" id="heroGoal"></p>
+      </div>
+      <div class="hero-side">
+        <div class="score" id="score">–</div>
+        <span class="pill" id="verdict">Waiting for input</span>
+        <p class="muted risk">
+          Goal risk: <span id="risk">–</span>
+          <span class="hint" tabindex="0"
+                data-hint="The score is the share of 4 simple checks you pass. All 4 is low risk, 2 or 3 is medium, 0 or 1 is high.">i</span>
+        </p>
+      </div>
+    </section>
+
+    <main class="grid">
+      <div>
+        <section class="card">
+          <h2>Your plan</h2>
+          <form id="planForm" autocomplete="off" novalidate>
+            <div class="fields">
+              <label class="field wide">
+                <span>Name
+                  <span class="hint" tabindex="0" data-hint="Only used in your saved plans and the report. It never leaves your device.">i</span>
+                </span>
+                <input id="name" placeholder="Your name">
+              </label>
+
+              <label class="field wide">
+                <span>Goal type
+                  <span class="hint" tabindex="0" data-hint="What you are saving for. It only changes the wording of your results.">i</span>
+                </span>
+                <select id="goalType">
+                  <option value="" disabled selected hidden>Choose a goal</option>
+                  <option>Retirement</option>
+                  <option>Home down payment</option>
+                  <option>Child's education</option>
+                  <option>Travel fund</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span>Monthly income (₹)
+                  <span class="hint" tabindex="0" data-hint="Your take-home pay each month. Your SIP should be at least 10% of it.">i</span>
+                </span>
+                <input type="number" id="income" min="0" placeholder="e.g. 60000">
+              </label>
+
+              <label class="field">
+                <span>Monthly expenses (₹)
+                  <span class="hint" tabindex="0" data-hint="What you spend in a month. Your emergency fund should cover 6 months of this.">i</span>
+                </span>
+                <input type="number" id="expenses" min="0" placeholder="e.g. 35000">
+              </label>
+
+              <label class="field">
+                <span>Emergency fund saved (₹)
+                  <span class="hint" tabindex="0" data-hint="Cash kept aside for emergencies, separate from your SIP.">i</span>
+                </span>
+                <input type="number" id="fund" min="0" placeholder="e.g. 150000">
+              </label>
+
+              <label class="field">
+                <span>Monthly SIP (₹)
+                  <span class="hint" tabindex="0" data-hint="The fixed amount you invest every month.">i</span>
+                </span>
+                <input type="number" id="sip" min="0" placeholder="e.g. 8000">
+              </label>
+
+              <label class="field">
+                <span>Duration (years)
+                  <span class="hint" tabindex="0" data-hint="How long you will keep the SIP running, from 1 to 40 years. 5 or more is safer.">i</span>
+                </span>
+                <input type="number" id="years" min="1" max="40" placeholder="e.g. 10">
+              </label>
+
+              <label class="field">
+                <span>Expected return (% a year)
+                  <span class="hint" tabindex="0" data-hint="A guess, not a promise. Debt funds usually sit lower and equity funds higher, with bigger ups and downs.">i</span>
+                </span>
+                <input type="number" id="rate" min="0" max="30" step="0.5" placeholder="e.g. 12">
+              </label>
+
+              <label class="field wide">
+                <span>Goal amount (₹)
+                  <span class="hint" tabindex="0" data-hint="The amount you want to have at the end of the duration.">i</span>
+                </span>
+                <input type="number" id="goal" min="0" placeholder="e.g. 2000000">
+              </label>
+            </div>
+            <button class="btn primary" id="saveBtn" type="button"
+                    title="Saves this plan in your browser" disabled>Save this plan</button>
+          </form>
+        </section>
+
+        <section class="card">
+          <h2>Next steps</h2>
+          <ul class="tips" id="tips"></ul>
+          <h3>Documents to keep ready</h3>
+          <div class="docs" id="docs"></div>
+        </section>
+      </div>
+
+      <div>
+        <section class="card">
+          <h2>Growth projection</h2>
+          <div class="stats">
+            <div><span>Invested</span><b id="stInvested">₹0</b></div>
+            <div><span>Returns</span><b id="stReturns">₹0</b></div>
+            <div><span>Total value</span><b id="stTotal">₹0</b></div>
+          </div>
+          <div class="chart"><canvas id="growthChart" role="img" aria-label="Projected growth of your SIP year by year"></canvas></div>
+          <p class="muted" id="yearDetail"></p>
+        </section>
+
+        <section class="card">
+          <h2>Breakdown and rules</h2>
+          <div class="two">
+            <div class="chart short"><canvas id="splitChart" role="img" aria-label="Invested amount compared with returns"></canvas></div>
+            <div class="chart short"><canvas id="rulesChart" role="img" aria-label="Which readiness rules you pass"></canvas></div>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Fund type comparison</h2>
+          <p class="muted">Sample returns for illustration. Real returns vary.</p>
+          <div class="scen" id="scen"></div>
+        </section>
+
+        <section class="card">
+          <h2>Saved plans <button class="link" id="clearBtn" type="button">Clear all</button></h2>
+          <ul class="history" id="history"></ul>
+        </section>
+      </div>
+    </main>
+
+    <footer class="muted">SIPWise is a learning project. Scores follow simple rules and are not financial advice.</footer>
+  </div>
+</body>
+</html>
