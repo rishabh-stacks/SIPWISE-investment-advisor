@@ -14,7 +14,7 @@ A fast, private SIP goal planner. Enter a few numbers and get your projected cor
 
 [🚀 Features](#-features) · [🧭 How it works](#-how-it-works) · [🧩 Code tour](#-code-tour) · [✅ Code quality](#-code-quality) · [📌 Roadmap](#-roadmap)
 
-<!-- Add your live demo link here, e.g. [🌐 Live demo](https://your-link) -->
+[🌐 Live demo](https://rishabh-stacks.github.io/SIPWISE-investment-advisor/) 
 
 </div>
 
